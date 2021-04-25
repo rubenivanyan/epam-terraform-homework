@@ -1,0 +1,23 @@
+---
+    - name: 'install mysql-server'
+      apt:
+  #     update_cache: true
+        force_apt_get: true
+        name: 'mysql-server'
+        state: 'present'
+      become: true  
+    - name: 'Create a new database with name wordpress_db'
+      community.mysql.mysql_db:
+        login_unix_socket: '/var/run/mysqld/mysqld.sock'
+        name: '{{db_name}}'
+        state: 'present'
+      become: true
+    - name: 'Create db user pass'
+      community.mysql.mysql_user:
+        login_unix_socket: '/var/run/mysqld/mysqld.sock'
+        name: '{{uname}}'  
+        password: '{{upass}}'
+        priv: '*.*:ALL,GRANT'
+      become: true
+  
+...
