@@ -67,9 +67,15 @@ resource "local_file" "inventory" {
   )
   filename = "inventory"
 }
+resource "time_sleep" "wait" {
+  depends_on = [aws_instance.myec2]
+
+  create_duration = "300s"
+}
 resource "null_resource" "runansible" {
- provisioner "local-exec" {
+  provisioner "local-exec" {
     command = "ansible-playbook -i inventory playbook.yml"
-    
+
   }
+  depends_on = [time_sleep.wait]
 }
