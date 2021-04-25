@@ -1,5 +1,5 @@
----
-- hosts: 'webservers'
+--- 
+- hosts: 'webserver' 
   remote_user: 'ubuntu'
   gather_facts: false
   roles: 

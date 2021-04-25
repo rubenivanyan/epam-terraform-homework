@@ -2,7 +2,7 @@
 # tasks file for nginx
     - name: 'install nginx'    
       apt:
-  #     update_cache: true
+        update_cache: true
         force_apt_get: true
         name: 'nginx'
         state: 'present'

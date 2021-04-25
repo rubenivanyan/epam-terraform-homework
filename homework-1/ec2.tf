@@ -1,3 +1,7 @@
+locals {
+  private_key_path = "/home/ruben/terraform.pem"
+}
+
 terraform {
   required_providers {
     aws = {
@@ -19,25 +23,25 @@ resource "aws_security_group" "allow_http_https_ssh" {
   vpc_id      = "vpc-05bf3d6e"
 
   ingress {
-    description      = "HTTPS from anywhere"
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "HTTPS from anywhere"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    description      = "HTTP from anywhere"
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "HTTP from anywhere"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    description      = "SSH from anywhere"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "SSH from anywhere"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -47,30 +51,25 @@ resource "aws_security_group" "allow_http_https_ssh" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
+}
 
-}
-resource "local_file" "config" {
- content = templatefile("inventory",
- {
-  public_ip=aws_instance.myec2.public_ip
- }
- )
- filename = "/home/ruben/terraform-homework/homework-1/inventory"
-}
 resource "aws_instance" "myec2" {
-  ami           = "ami-08962a4068733a2b6"
-  instance_type = "t2.micro"
-  key_name = "terraform"
+  ami                    = "ami-08962a4068733a2b6"
+  instance_type          = "t2.micro"
+  key_name               = "terraform"
   vpc_security_group_ids = ["${aws_security_group.allow_http_https_ssh.id}"]
-  
-  provisioner "local-exec" {
-    command = "ansible-playbook -i  inventory playbook.yml"
-  }
-  connection {
-    type = "ssh"
-    user = "ubuntu"
-    private_key = file ("/home/ruben/terraform.pem")
-    host = self.public_ip
+}
+resource "local_file" "inventory" {
+  content = templatefile("inventory.template",
+    {
+      public_ip = aws_instance.myec2.public_ip
+    }
+  )
+  filename = "inventory"
+}
+resource "null_resource" "runansible" {
+ provisioner "local-exec" {
+    command = "ansible-playbook -i inventory playbook.yml"
+    
   }
 }
-

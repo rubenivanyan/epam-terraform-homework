@@ -1,6 +1,7 @@
 # Local .terraform directories
 **/.terraform/*
 **/homework-1/terraform
+.terraform.lock.hcl
 
 # .tfstate files
 *.tfstate
