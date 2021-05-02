@@ -1,0 +1,5 @@
+---
+# defaults file for wordpress
+wordpress_user: 'www-data'
+wordpress_group: 'www-data'
+wordpress_nginx_handler_name: 'Restart nginx service'

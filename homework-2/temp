@@ -1,0 +1,33 @@
+resource "null_resource" "runansible" {
+  provisioner "local-exec" {
+    command = "ansible-playbook -i inventory playbook.yml"
+
+  }
+  depends_on = [time_sleep.wait]
+}
+resource "aws_network_interface" "new" {
+  subnet_id   = aws_subnet.new_subnet.id
+  private_ips = ["10.10.10.10"]
+
+  tags = {
+    Name = "primary_network_interface"
+  }
+}
+
+esource "aws_db_subnet_group" "newrds" {
+  name       = "newrds"
+  subnet_ids = module.vpc.public_subnets
+
+  tags = {
+    Name = "Education"
+  }
+}
+resource "aws_vpc" "new" {
+  cidr_block       = "10.10.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+  
+  
+}
+
+variable vpc_id {default = "module.vpc.vpc_id" }
