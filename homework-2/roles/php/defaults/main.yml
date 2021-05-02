@@ -1,6 +1,0 @@
----
-    program_list:
-      -  'php-fpm'
-      -  'php-mysql'
-      -  'python3-pip'
-      -  'python3-pymysql'
