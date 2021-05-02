@@ -1,0 +1,25 @@
+---
+    - name: 'Download & unarchive wordpress'
+      unarchive:
+        src: 'https://wordpress.org/latest.tar.gz'
+        dest: '/var/www/'
+        remote_src: true
+      become: true
+    - name: 'Copy wp-config for datebase'
+      template:
+        src: 'wp-config.php.j2'
+        dest: '/var/www/wordpress/wp-config.php'
+        owner: '{{wordpress_user}}'
+        group: '{{wordpress_group}}'
+        mode: '0664'
+      become: true
+    - name: 'Set ownership'
+      file:
+        path: '/var/www/wordpress'
+        state: 'directory'
+        recurse: true
+        owner: '{{wordpress_user}}'
+        group: '{{wordpress_group}}'
+      become: true
+      notify: '{{wordpress_nginx_handler_name}}'
+...

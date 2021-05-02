@@ -1,0 +1,9 @@
+---
+# defaults file for nginx
+user: ''
+nginx_user: 'www-data'
+nginx_group: 'www-data'
+nginx_php_fpm_sock_path: '/var/run/php/php7.4-fpm.sock'
+nginx_listen_port: '80'
+nginx_document_root: '/var/www/wordpress'
+nginx_server_name: '127.0.0.1'

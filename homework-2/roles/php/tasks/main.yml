@@ -1,0 +1,9 @@
+---
+  - name: 'install php packages'
+    apt:
+      update_cache: true
+      force_apt_get: true 
+      name: '{{ item }}'
+    become: true
+    loop: '{{program_list}}'
+...
