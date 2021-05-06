@@ -29,7 +29,7 @@ define( 'DB_USER', '{{uname}}' );
 define( 'DB_PASSWORD', '{{upass}}' );
 
 /** MySQL hostname */
-define( 'DB_HOST', 'terraform-20210502152243299900000002.cueknk56wetw.us-east-2.rds.amazonaws.com' );
+define( 'DB_HOST', 'terraform-20210506140723690900000002.cueknk56wetw.us-east-2.rds.amazonaws.com' );
 
 /** Database Charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );

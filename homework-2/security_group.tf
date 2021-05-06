@@ -1,6 +1,6 @@
 locals {
-  vpc_id = module.vpc.vpc_id
-  sec_group_lb_to_ec2 = ["${aws_security_group.wordpress_sg.id}"]
+  vpc_id               = module.vpc.vpc_id
+  sec_group_lb_to_ec2  = ["${aws_security_group.wordpress_sg.id}"]
   sec_group_ec2_to_rds = ["${aws_security_group.main_sg.id}"]
 }
 resource "aws_security_group" "main_sg" {
@@ -9,25 +9,25 @@ resource "aws_security_group" "main_sg" {
   vpc_id      = local.vpc_id
 
   ingress {
-    description = "HTTPS from load_balancer"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
+    description     = "HTTPS from load_balancer"
+    from_port       = 443
+    to_port         = 443
+    protocol        = "tcp"
     security_groups = local.sec_group_lb_to_ec2
   }
   ingress {
-    description = "HTTP from load_balancer"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    security_groups  =  local.sec_group_lb_to_ec2
+    description     = "HTTP from load_balancer"
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = local.sec_group_lb_to_ec2
   }
   ingress {
     description = "SSH from anywhere"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -76,13 +76,13 @@ resource "aws_security_group" "db_sg" {
   vpc_id      = local.vpc_id
 
   ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    security_groups  =  local.sec_group_ec2_to_rds
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = local.sec_group_ec2_to_rds
 
 
-}
+  }
 
   egress {
     from_port        = 0

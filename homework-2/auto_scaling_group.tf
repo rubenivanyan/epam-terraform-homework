@@ -1,9 +1,9 @@
 resource "aws_launch_configuration" "wordpress_lc" {
-  name_prefix   = "terraform-lc"
-  image_id      = "ami-08962a4068733a2b6"
-  instance_type = "t2.micro"
-  key_name = "terraform"
-  security_groups = [ aws_security_group.main_sg.id ]
+  name_prefix                 = "terraform-lc"
+  image_id                    = "ami-08962a4068733a2b6"
+  instance_type               = "t2.micro"
+  key_name                    = "terraform"
+  security_groups             = [aws_security_group.main_sg.id]
   associate_public_ip_address = true
   lifecycle {
     create_before_destroy = true
@@ -11,9 +11,9 @@ resource "aws_launch_configuration" "wordpress_lc" {
 }
 
 resource "aws_autoscaling_group" "wordpress_asg" {
-  name                 = "wordpress_asg"
-  min_size             = 2
-  max_size             = 5
+  name                      = "wordpress_asg"
+  min_size                  = 2
+  max_size                  = 5
   health_check_grace_period = 300
   health_check_type         = "ELB"
   desired_capacity          = 2
@@ -29,7 +29,7 @@ resource "aws_autoscaling_group" "wordpress_asg" {
       }
     ]
   )
-  
+
   lifecycle {
     create_before_destroy = true
   }

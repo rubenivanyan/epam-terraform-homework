@@ -7,6 +7,10 @@ resource "local_file" "dbhostname" {
   )
 
   filename = "dbhostname"
+  depends_on = [
+    aws_db_instance.default
+  ]
+
 }
 #Run Ansible                                
 resource "null_resource" "runansible" {
@@ -19,7 +23,7 @@ resource "null_resource" "runansible" {
 
   }
   depends_on = [
-    aws_db_instance.default
+    local_file.dbhostname
   ]
 
 }

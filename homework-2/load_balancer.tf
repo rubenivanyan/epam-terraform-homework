@@ -9,7 +9,7 @@ resource "aws_lb_target_group" "wordpress" {
   protocol = "HTTP"
   vpc_id   = local.vpc_id2
   health_check {
-    path = "${var.health_check_path}"
+    path = var.health_check_path
   }
 
 }
